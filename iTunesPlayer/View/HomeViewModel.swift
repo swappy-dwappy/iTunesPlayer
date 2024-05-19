@@ -41,15 +41,12 @@ extension HomeViewModel {
         guard downloads[episode.url] == nil  else { return }
         
         let download = Download(url: episode.url, downloadSession: downloadSession)
+        download.startDownload()
         download.handleCompletedFile = { [weak self] event in
             self?.process(event, for: episode)
         }
         downloads[episode.url] = download
         podcast?[episode.id]?.isDownloading = true
-        for await event in download.events {
-            process(event, for: episode)
-        }
-        downloads[episode.url] = nil
     }
     
     func pauseDownload(for episode: Episode) {
@@ -70,6 +67,9 @@ private extension HomeViewModel {
             podcast?[episode.id]?.update(currentBytes: currentBytes, totalBytes: totalBytes)
         case let .success(url):
             saveFile(for: episode, at: url)
+            downloads[episode.url] = nil
+        case let .failed(error):
+            podcast?[episode.id]?.isDownloading = false
         }
     }
 
