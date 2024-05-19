@@ -25,7 +25,7 @@ extension HomeViewModel {
    
     @MainActor
     func fetchPodcast() async {
-        switch await NetworkManager().getPodcast(id: 1386867488, media: "podcast", entity: "podcastEpisode", limit: 5) {
+        switch await NetworkManager().getPodcast(id: 1386867488, media: "podcast", entity: "podcastEpisode", limit: 10) {
         case .success(let podcast):
             self.podcast = podcast
             

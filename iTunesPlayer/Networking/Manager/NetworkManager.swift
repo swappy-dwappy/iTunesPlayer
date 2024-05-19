@@ -74,7 +74,6 @@ struct NetworkManager {
         }
     }
     
-    // "https://itunes.apple.com/lookup?id=1386867488&media=podcast&entity=podcastEpisode&limit=5"
     func getPodcast(id: Int, media: String, entity: String, limit: Int) async -> Result<Podcast, Error> {
         do {
             let (data, response) = try await Router().request(route: PodcastApi.searchEpisode(id: id, media: media, entity: entity, limit: limit))
