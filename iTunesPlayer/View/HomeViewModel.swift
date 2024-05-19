@@ -41,6 +41,9 @@ extension HomeViewModel {
         guard downloads[episode.url] == nil  else { return }
         
         let download = Download(url: episode.url, downloadSession: downloadSession)
+        download.handleCompletedFile = { [weak self] event in
+            self?.process(event, for: episode)
+        }
         downloads[episode.url] = download
         podcast?[episode.id]?.isDownloading = true
         for await event in download.events {
@@ -76,6 +79,12 @@ private extension HomeViewModel {
         if !fileManager.fileExists(atPath: directoryURL.path()) {
             try? fileManager.createDirectory(at: directoryURL, withIntermediateDirectories: true)
         }
-        try? fileManager.moveItem(at: url, to: episode.fileURL)
+        print("Url: \(url)")
+        print("Episode: \(episode.fileURL)")
+        do {
+            try fileManager.moveItem(at: url, to: episode.fileURL)
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 }

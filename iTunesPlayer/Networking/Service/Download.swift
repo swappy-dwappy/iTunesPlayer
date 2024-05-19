@@ -12,6 +12,8 @@ class Download: NSObject {
     let url: URL
     let downloadSession: URLSession
     
+    var handleCompletedFile: ((Event)-> Void)?
+    
     private var continuation: AsyncStream<Event>.Continuation?
 
     private lazy var task: URLSessionDownloadTask = {
@@ -56,7 +58,7 @@ extension Download: URLSessionDownloadDelegate {
     }
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        continuation?.yield(.success(url: location))
+        handleCompletedFile?(.success(url: location))
         continuation?.finish()
     }
 }
