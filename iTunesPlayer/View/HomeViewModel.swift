@@ -68,7 +68,7 @@ private extension HomeViewModel {
         case let .success(url):
             saveFile(for: episode, at: url)
             downloads[episode.url] = nil
-        case let .failed(error):
+        case .failed(_):
             podcast?[episode.id]?.isDownloading = false
         }
     }

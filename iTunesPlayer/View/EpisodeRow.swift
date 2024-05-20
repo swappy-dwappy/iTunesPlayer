@@ -19,7 +19,7 @@ struct EpisodeRow: View {
                     .font(.title3)
                     .frame(width: 24, height: 32)
             }
-            .tint(buttonTint)
+            .tint(downloadTint)
             .buttonStyle(.borderedProminent)
             
             VStack(alignment: .leading, spacing: 6) {
@@ -32,7 +32,7 @@ struct EpisodeRow: View {
                 
                 if progress > 0 && progress < 1.0 {
                     ProgressView(value: progress)
-                        .tint(buttonTint)
+                        .tint(downloadTint)
                 }
             }
         }
@@ -62,7 +62,7 @@ private extension EpisodeRow {
         }
     }
     
-    var buttonTint: Color {
+    var downloadTint: Color {
         switch (progress, episode?.isDownloading ?? false) {
         case (1.0, _): return .green
         case (_, true): return .yellow
