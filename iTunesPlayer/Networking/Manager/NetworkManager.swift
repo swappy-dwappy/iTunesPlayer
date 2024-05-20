@@ -52,6 +52,7 @@ struct NetworkManager {
     
     private let cache = NSCache<NSString, UIImage>()
     
+    /// Sample func to download and cache image
     func getThumbnail(domain: String, basePath: String, key: String) async -> Result<UIImage, Error> {
         
         let cacheKey = basePath + key
