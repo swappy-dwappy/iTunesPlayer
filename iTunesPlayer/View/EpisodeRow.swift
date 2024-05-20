@@ -19,6 +19,7 @@ struct EpisodeRow: View {
                     .font(.title3)
                     .frame(width: 24, height: 32)
             }
+            .tint(buttonTint)
             .buttonStyle(.borderedProminent)
             
             VStack(alignment: .leading, spacing: 6) {
@@ -31,6 +32,7 @@ struct EpisodeRow: View {
                 
                 if progress > 0 && progress < 1.0 {
                     ProgressView(value: progress)
+                        .tint(buttonTint)
                 }
             }
         }
@@ -55,7 +57,17 @@ private extension EpisodeRow {
         switch (progress, episode?.isDownloading ?? false) {
         case (1.0, _): return "checkmark.circle.fill"
         case (_, true): return "pause.fill"
+        case (0.0.nextUp..<1.0, false): return "play.fill"
         default: return "tray.and.arrow.down"
+        }
+    }
+    
+    var buttonTint: Color {
+        switch (progress, episode?.isDownloading ?? false) {
+        case (1.0, _): return .green
+        case (_, true): return .yellow
+        case (0.0.nextUp..<1.0, false): return .red
+        default: return .blue
         }
     }
 }
